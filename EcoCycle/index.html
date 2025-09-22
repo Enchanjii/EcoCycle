@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<htm lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCycle - Transform E-Waste Into Impact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100">
+
+    <div class="min-h-screen hero-bg text-white">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-green-200 via-emerald-100 to-blue-100 backdrop-blur-lg text-gray-800 fixed top-0 left-0 right-0 z-20 shadow-xl rounded-b-3xl border-b border-green-300">
+            <div class="container mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-300 shadow-lg border-4 border-white">
+                        <i data-lucide="leaf" class="w-7 h-7 text-green-700"></i>
+                    </span>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-green-700 tracking-tight drop-shadow-lg">EcoCycle</h1>
+                </div>
+                <nav class="hidden md:flex items-center space-x-6 font-semibold">
+                    <a href="#" class="hover:text-green-700 transition px-3 py-2 rounded-xl hover:bg-green-100">Home</a>
+                    <a href="#find" class="hover:text-green-700 transition px-3 py-2 rounded-xl hover:bg-green-100">Find</a>
+                    <a href="#learn" class="hover:text-green-700 transition px-3 py-2 rounded-xl hover:bg-green-100">Learn</a>
+                    <a href="#community" class="hover:text-green-700 transition px-3 py-2 rounded-xl hover:bg-green-100">Community</a>
+                    <a href="#" id="contact-link" class="hover:text-green-700 transition px-3 py-2 rounded-xl hover:bg-green-100">Contact</a>
+                </nav>
+                <div class="flex items-center">
+                    <button id="donate-now-btn" class="hidden md:inline bg-gradient-to-r from-green-400 to-blue-400 text-white px-5 py-2 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform">Support Us</button>
+                    <button id="mobile-menu-button" class="md:hidden ml-2 p-2 rounded-full bg-green-100 hover:bg-green-200 shadow">
+                        <i data-lucide="menu" class="w-6 h-6 text-green-700"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden px-6 pb-4 bg-green-50 rounded-b-2xl shadow-lg absolute w-full left-0 top-full z-30">
+                <a href="#" class="block py-2 hover:text-green-700 transition">Home</a>
+                <a href="#find" class="block py-2 hover:text-green-700 transition">Find</a>
+                <a href="#learn" class="block py-2 hover:text-green-700 transition">Learn</a>
+                <a href="#community" class="block py-2 hover:text-green-700 transition">Community</a>
+                <a href="#" id="contact-link-mobile" class="block py-2 hover:text-green-700 transition">Contact</a>
+                <button id="donate-now-btn-mobile" class="w-full mt-3 bg-gradient-to-r from-green-400 to-blue-400 text-white px-5 py-2 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform">Support Us</button>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="flex flex-col items-center justify-center min-h-[80vh] pt-32 pb-12 bg-gradient-to-br from-green-50 via-blue-50 to-white">
+            <div class="text-center max-w-4xl mx-auto px-4">
+                <div class="flex justify-center mb-4 gap-2 animate-bounce">
+                    <i data-lucide="leaf" class="w-8 h-8 text-green-400"></i>
+                    <i data-lucide="leaf" class="w-8 h-8 text-green-300"></i>
+                    <i data-lucide="leaf" class="w-8 h-8 text-green-500"></i>
+                </div>
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight text-green-700 mb-2">
+                    <span class="text-gradient">Transform E-Waste</span>
+                    <br />
+                    <span class="text-blue-600">Into Impact</span>
+                </h1>
+                <p class="mt-6 text-base sm:text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
+                    Join our community to give your old electronics a new life. Donate your e-waste, find free parts for your projects, and help build a sustainable, circular economy.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#find" class="bg-gradient-to-r from-green-400 to-blue-400 text-white px-8 py-3 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-lg flex items-center space-x-2 w-full sm:w-auto justify-center">
+                        <i data-lucide="map-pin"></i>
+                        <span>Find an E-Waste Hub</span>
+                    </a>
+                    <a href="#learn" class="bg-white text-green-700 px-8 py-3 rounded-xl font-bold text-lg hover:bg-green-100 transition-colors shadow-lg border border-green-200 flex items-center space-x-2 w-full sm:w-auto justify-center">
+                        <i data-lucide="book-open" class="text-green-500"></i>
+                        <span>Donation Guide</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Stats Section -->
+            <div class="w-full mt-16 md:mt-24 lg:mt-32">
+                <div class="max-w-4xl mx-auto px-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-green-200 shadow-lg flex flex-col items-center hover:scale-105 transition-transform">
+                            <i data-lucide="leaf" class="w-8 h-8 text-green-500 mb-4 gap-2 animate-bounce"></i>
+                            <p class="text-4xl font-bold text-gradient">12.5K</p>
+                            <p class="mt-2 text-green-700">Devices Recycle</p>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-green-200 shadow-lg flex flex-col items-center hover:scale-105 transition-transform">
+                            <i data-lucide="recycle" class="w-8 h-8 text-green-500 mb-4 gap-2 animate-bounce"></i>
+                            <p class="text-4xl font-bold text-gradient">8.3 Tons</p>
+                            <p class="mt-2 text-green-700">E-Waste Diverted</p>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-green-200 shadow-lg flex flex-col items-center hover:scale-105 transition-transform">
+                            <i data-lucide="users" class="w-8 h-8 text-green-500 mb-4 gap-2 animate-bounce/"></i>
+                            <p class="text-4xl font-bold text-gradient">45</p>
+                            <p class="mt-2 text-green-700">Community Hubs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Find Locations Section -->
+    <section id="find" class="bg-gray-50 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Find E-Waste Hubs</h2>
+                <p class="mt-4 text-gray-600">Locate our hubs to donate your e-waste or find free items for pickup.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Column for Search and Filters -->
+                <div class="lg:col-span-4 space-y-8">
+                    <div class="card-eco p-6">
+                        <h3 class="font-semibold text-lg text-gray-800 flex items-center"><i data-lucide="search" class="w-5 h-5 mr-2 eco-icon"></i>Search & Filter</h3>
+                        <div class="relative mt-4">
+                            <input type="text" id="search-input" placeholder="Search by city or hub name..." class="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <i data-lucide="search" class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                        </div>
+                        <div class="mt-6">
+                            <h4 class="font-semibold text-gray-700 mb-3">Filter by Status</h4>
+                            <div class="flex flex-wrap gap-2" id="filter-buttons">
+                                <button class="hub-filter-btn active" data-filter="all">All</button>
+                                <button class="hub-filter-btn" data-filter="available">
+                                    <span class="status-dot" style="background-color:#22c55e"></span>Available
+                                </button>
+                                <button class="hub-filter-btn" data-filter="nearly-full">
+                                    <span class="status-dot" style="background-color:#f59e0b"></span>Nearly Full
+                                </button>
+                                <button class="hub-filter-btn" data-filter="full">
+                                    <span class="status-dot" style="background-color:#ef4444"></span>Full
+                                </button>
+                                <button class="hub-filter-btn" data-filter="offline">
+                                    <span class="status-dot" style="background-color:#6b7280"></span>Offline
+                                </button>
+                            </div>
+                        </div>
+                         <button id="use-my-location-btn" class="mt-6 w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center space-x-2">
+                            <i data-lucide="navigation" class="w-5 h-5 eco-icon"></i>
+                            <span>Find Near Me</span>
+                        </button>
+                    </div>
+                     <div class="card-eco p-6">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-4">Nearby Hubs</h3>
+                        <ul id="bin-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                           <!-- Bin items will be dynamically inserted here -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Column for Map and Details -->
+                <div class="lg:col-span-8 space-y-8">
+                     <div class="card-eco p-4 h-[465px] flex flex-col">
+                         <div id="map" class="flex-grow rounded-lg z-10"></div>
+                     </div>
+                     <div id="bin-details" class="card-eco p-6 hidden">
+                        <!-- Details will appear here -->
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recycle Right Guide Section -->
+   <section id="learn" class="bg-white py-20">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-gray-800">What Can You Donate?</h2>
+    <div class="mb-6 p-4 bg-blue-50 border-l-4 border-blue-400 rounded text-blue-700 text-sm font-medium">
+      <strong>Note:</strong> Each e-waste type earns different points when donated. Click a category to see how many points you can earn!
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
+      <div class="category-card card-eco cursor-pointer" data-category="monitors">
+        <i data-lucide="monitor" class="w-8 h-8 eco-icon mb-2"></i>
+        <h3 class="font-semibold text-lg mb-1">Monitors & Displays</h3>
+        <p class="text-sm text-gray-500">Screens, TVs, tablets</p>
+      </div>
+      <div class="category-card card-eco cursor-pointer" data-category="cpu">
+        <i data-lucide="cpu" class="w-8 h-8 eco-icon mb-2"></i>
+        <h3 class="font-semibold text-lg mb-1">CPU & Motherboards</h3>
+        <p class="text-sm text-gray-500">Computers, motherboards</p>
+      </div>
+      <div class="category-card card-eco cursor-pointer" data-category="mouse">
+        <i data-lucide="mouse-pointer" class="w-8 h-8 eco-icon mb-2"></i>
+        <h3 class="font-semibold text-lg mb-1">Mouse & Keyboards</h3>
+        <p class="text-sm text-gray-500">Mice, keyboards, controllers</p>
+      </div>
+      <div class="category-card card-eco cursor-pointer" data-category="mobile">
+        <i data-lucide="smartphone" class="w-8 h-8 eco-icon mb-2"></i>
+        <h3 class="font-semibold text-lg mb-1">Mobile Devices</h3>
+        <p class="text-sm text-gray-500">Phones, tablets, watches</p>
+      </div>
+      <div class="category-card card-eco cursor-pointer" data-category="audio">
+        <i data-lucide="headphones" class="w-8 h-8 eco-icon mb-2"></i>
+        <h3 class="font-semibold text-lg mb-1">Audio Equipment</h3>
+        <p class="text-sm text-gray-500">Speakers, headphones</p>
+      </div>
+      <div class="category-card card-eco cursor-pointer" data-category="cables">
+        <i data-lucide="plug" class="w-8 h-8 eco-icon mb-2"></i>
+        <h3 class="font-semibold text-lg mb-1">Cables & Accessories</h3>
+        <p class="text-sm text-gray-500">Cables, chargers, adapters</p>
+      </div>
+    </div>
+    
+    <div id="category-details" class="hidden card-eco mb-12"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-lg font-semibold text-blue-600 mb-4">Before Donating</h3>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="shield-check" class="w-4 h-4 text-blue-500"></i></span>
+                    <span>Remove all personal data and perform factory reset</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="battery-warning" class="w-4 h-4 text-blue-500"></i></span>
+                    <span>Remove batteries when possible</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="package" class="w-4 h-4 text-blue-500"></i></span>
+                    <span>Keep original accessories together</span>
+                </li>
+            </ul>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-lg font-semibold text-green-600 mb-4">What We Accept</h3>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i></span>
+                    <span>Working and non-working electronics</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i></span>
+                    <span>Computers, phones, tablets, accessories</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i></span>
+                    <span>Small appliances and gaming devices</span>
+                </li>
+            </ul>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-lg font-semibold text-red-600 mb-4">Not Accepted</h3>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="x-circle" class="w-4 h-4 text-red-500"></i></span>
+                    <span>Large appliances (refrigerators, washers)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="x-circle" class="w-4 h-4 text-red-500"></i></span>
+                    <span>Hazardous materials or chemicals</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 mt-1.5 flex-shrink-0"><i data-lucide="x-circle" class="w-4 h-4 text-red-500"></i></span>
+                    <span>Items with personal data not wiped</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </div>
+</section>
+    <!-- Community Impact Feed Section -->
+    <section id="community" class="bg-gray-50 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Community Impact Feed</h2>
+                <p class="mt-4 text-gray-600">See the amazing contributions from our community members and celebrate collective impact</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Column -->
+                <div class="lg:col-span-4 space-y-8">
+                    <!-- Share Your Impact Card -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-4 flex items-center"><i data-lucide="share-2" class="w-5 h-5 mr-2"></i>Share Your Impact</h3>
+                        <p class="text-sm text-gray-500 text-center mb-4">Share a photo of your donation to earn points and inspire others!</p>
+                        <div class="space-y-3">
+                            <button id="upload-photo-btn" class="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2">
+                                <i data-lucide="upload" class="w-5 h-5"></i>
+                                <span>Upload Photo</span>
+                            </button>
+                            <button id="take-photo-btn" class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center space-x-2">
+                                <i data-lucide="camera" class="w-5 h-5"></i>
+                                <span>Take Photo</span>
+                            </button>
+                        </div>
+                        <input type="file" id="photo-upload-input" class="hidden" accept="image/*" multiple>
+                    </div>
+
+                    <!-- Your Impact Card -->
+                    <div id="your-impact-card" class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-4 flex items-center"><i data-lucide="award" class="w-5 h-5 mr-2"></i>Your Impact</h3>
+                        <div class="text-center mb-4">
+                            <p id="user-points" class="text-3xl font-bold text-blue-500">1,250</p>
+                            <p class="text-sm text-gray-500">Points Earned</p>
+                        </div>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex justify-between items-center">
+                                <span>Coffee Voucher</span>
+                                <span class="font-semibold text-gray-700">500 pts</span>
+                            </li>
+                             <li class="flex justify-between items-center">
+                                <span>Movie Ticket</span>
+                                <span class="font-semibold text-gray-700">800 pts</span>
+                            </li>
+                             <li class="flex justify-between items-center">
+                                <span>Shopping Coupon</span>
+                                <span class="font-semibold text-gray-700">1,000 pts</span>
+                            </li>
+                        </ul>
+                        <button id="view-rewards-btn" class="mt-6 w-full bg-white border border-gray-300 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            View All Rewards
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column (Feed) -->
+                <div class="lg:col-span-8">
+                    <!-- Add this above the feed-container in the Community Impact Feed section -->
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <div class="flex-1 flex items-center gap-2">
+        <input id="feed-search-input" type="text" placeholder="Search by item, user, or location..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    </div>
+    <div class="flex gap-2 mt-2 md:mt-0">
+        <select id="feed-filter-select" class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="all">All</option>
+            <option value="collected">Collected</option>
+            <option value="not-collected">Not Collected</option>
+        </select>
+        <select id="feed-sort-select" class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+        </select>
+    </div>
+</div>
+                    <div id="feed-container" class="space-y-4">
+                        <!-- Example Story 1 -->
+    <div class="bg-white rounded-lg shadow p-4 flex flex-col md:flex-row items-start gap-4 border mb-2 collected">
+        <!-- Story Photo -->
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=96&q=80" alt="Donation Photo" class="w-24 h-24 rounded-lg object-cover border">
+        <!-- Story Content -->
+        <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="font-bold text-gray-800">Jane D.</span>
+                <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full">Verified</span>
+                <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">Collected</span>
+                <span class="ml-auto text-xs text-gray-400 md:ml-0">2 hours ago</span>
+            </div>
+            <div class="mb-1">
+                <span class="text-gray-700">Donated: <span class="font-bold line-through text-gray-400">Donated my old monitor today!</span></span>
+            </div>
+            <div class="mb-1 flex items-center gap-2">
+                <span class="text-pink-600 text-sm flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-1"></i> Downtown Collection Point</span>
+            </div>
+            <div class="flex items-center gap-4 mt-2">
+                <span class="flex items-center text-gray-600 text-sm"><i data-lucide="heart" class="w-4 h-4 mr-1"></i>24 Thanks</span>
+                <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">+17 pts earned</span>
+            </div>
+            <a href="#" class="text-blue-600 text-sm mt-2 inline-block">Comments (1)</a>
+        </div>
+    </div>
+    <!-- Example Story 2 -->
+    <div class="bg-white rounded-lg shadow p-4 flex flex-col md:flex-row items-start gap-4 border mb-2">
+        <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=96&q=80" alt="Donation Photo" class="w-24 h-24 rounded-lg object-cover border">
+        <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="font-bold text-gray-800">Mark T.</span>
+                <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full">Verified</span>
+                <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">Collected</span>
+                <span class="ml-auto text-xs text-gray-400 md:ml-0">1 hour ago</span>
+            </div>
+            <div class="mb-1">
+                <span class="text-gray-700">Donated: <span class="font-bold">Old CPU and RAM sticks!</span></span>
+            </div>
+            <div class="mb-1 flex items-center gap-2">
+                <span class="text-pink-600 text-sm flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-1"></i> Uptown Hub</span>
+            </div>
+            <div class="flex items-center gap-4 mt-2">
+                <span class="flex items-center text-gray-600 text-sm"><i data-lucide="heart" class="w-4 h-4 mr-1"></i>15 Thanks</span>
+                <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">+12 pts earned</span>
+            </div>
+            <a href="#" class="text-blue-600 text-sm mt-2 inline-block">Comments (2)</a>
+        </div>
+    </div>
+    <!-- Example Story 3 -->
+    <div class="bg-white rounded-lg shadow p-4 flex flex-col md:flex-row items-start gap-4 border mb-2">
+        <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=96&q=80" alt="Donation Photo" class="w-24 h-24 rounded-lg object-cover border">
+        <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="font-bold text-gray-800">Lisa P.</span>
+                <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full">Verified</span>
+                <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">Collected</span>
+                <span class="ml-auto text-xs text-gray-400 md:ml-0">30 minutes ago</span>
+            </div>
+            <div class="mb-1">
+                <span class="text-gray-700">Donated: <span class="font-bold">Tablet and charger set!</span></span>
+            </div>
+            <div class="mb-1 flex items-center gap-2">
+                <span class="text-pink-600 text-sm flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-1"></i> Riverside Center</span>
+            </div>
+            <div class="flex items-center gap-4 mt-2">
+                <span class="flex items-center text-gray-600 text-sm"><i data-lucide="heart" class="w-4 h-4 mr-1"></i>32 Thanks</span>
+                <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">+20 pts earned</span>
+            </div>
+            <a href="#" class="text-blue-600 text-sm mt-2 inline-block">Comments (3)</a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4 flex flex-col md:flex-row items-start gap-4 border mb-2">
+    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=96&q=80" alt="Donation Photo" class="w-24 h-24 rounded-lg object-cover border">
+    <div class="flex-1">
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="font-bold text-gray-800">Tommy S.</span>
+            <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full">Verified</span>
+            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">Collected</span>
+            <span class="ml-auto text-xs text-gray-400 md:ml-0">10 minutes ago</span>
+        </div>
+        <div class="mb-1">
+            <span class="text-gray-700">Donated: <span class="font-bold">Old headphones and speakers!</span></span>
+        </div>
+        <div class="mb-1 flex items-center gap-2">
+            <span class="text-pink-600 text-sm flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-1"></i> Main Street Hub</span>
+        </div>
+        <div class="flex items-center gap-4 mt-2">
+            <span class="flex items-center text-gray-600 text-sm"><i data-lucide="heart" class="w-4 h-4 mr-1"></i>10 Thanks</span>
+            <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">+8 pts earned</span>
+        </div>
+        <a href="#" class="text-blue-600 text-sm mt-2 inline-block">Comments (0)</a>
+    </div>
+</div>
+                    </div>
+                     <button id="load-more-btn" class="mt-8 w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                        Load More Stories
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="bg-gradient-to-r from-green-700 via-green-600 to-blue-700 text-white py-12 rounded-t-2xl">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="font-bold text-lg text-white mb-4">EcoCycle</h3>
+                    <p class="text-sm">Transforming E-Waste Into Impact for a sustainable future.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#find" class="hover:text-white transition-colors">Find a Bin</a></li>
+                        <li><a href="#learn" class="hover:text-white transition-colors">Learn More</a></li>
+                        <li><a href="#community" class="hover:text-white transition-colors">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-white mb-4">Legal</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-white mb-4">Follow Us</h3>
+                    <div class="flex space-x-4 mt-2">
+                        <a href="#" class="hover:text-green-300 transition-colors"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="hover:text-green-300 transition-colors"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="hover:text-green-300 transition-colors"><i data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
+                <p>&copy; 2024 EcoCycle. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification element (centered, small, styled) -->
+<div id="notification">
+    <div id="notification-icon" class="mb-2" style="font-size:2rem; color:#4caf50;">
+        <i data-lucide="leaf"></i>
+    </div>
+    <div id="notification-message" class="mb-2 font-bold text-lg">Thank you for supporting a greener planet!</div>
+    <div id="notification-detail" class="mb-3 text-sm">Your action helps reduce e-waste and protect the environment.</div>
+</div>
+
+    <!-- Donate Modal -->
+    <div id="donate-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Support EcoCycle</h3>
+                <button id="close-donate-modal-btn" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-600 mb-4">
+        Your monetary donation helps us maintain the hubs, manage logistics, and expand our community programs. Every little bit helps!
+    </p>
+    <div class="mb-4">
+        <label for="donation-amount" class="block text-sm font-medium text-gray-700">Amount (PHP)</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-500 sm:text-sm">₱</span>
+            </div>
+            <input type="number" name="donation-amount" id="donation-amount" class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+        </div>
+    </div>
+    <div class="mb-4">
+        <label for="donation-method" class="block text-sm font-medium text-gray-700 mb-2">Choose where to give</label>
+        <select id="donation-method" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="bank">Bank Account (BDO)</option>
+            <option value="gcash">GCash</option>
+        </select>
+    </div>
+    <div id="bank-details" class="mb-4">
+        <h4 class="font-semibold text-gray-800 mb-1">Bank Account</h4>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm">
+            <div><span class="font-semibold">Bank:</span> BDO</div>
+            <div><span class="font-semibold">Account Name:</span> EcoCycle Foundation</div>
+            <div><span class="font-semibold">Account Number:</span> 0045-1234-5678</div>
+        </div>
+    </div>
+    <div id="gcash-details" class="mb-6 hidden">
+        <h4 class="font-semibold text-gray-800 mb-1">GCash</h4>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm">
+            <div><span class="font-semibold">GCash Number:</span> 09701843042</div>
+            <div><span class="font-semibold">Account Name:</span> EcoCycle PH</div>
+        </div>
+    </div>
+    <div class="grid grid-cols-3 gap-3 mb-6">
+        <button class="donation-preset-btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg" data-amount="500">₱500</button>
+        <button class="donation-preset-btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg" data-amount="1000">₱1000</button>
+        <button class="donation-preset-btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg" data-amount="2000">₱2000</button>
+    </div>
+    <button id="submit-donation-btn" class="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-600 transition-colors">
+        Donate Now
+    </button>
+</div>
+        </div>
+    </div>
+
+    <!-- Rewards Modal -->
+    <div id="rewards-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Available Rewards</h3>
+                <button id="close-rewards-modal-btn" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6 max-h-[60vh] overflow-y-auto">
+                <ul id="rewards-list" class="space-y-4">
+                    <!-- Water Bottle -->
+                    <li class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="water bottle.png" alt="Eco Water Bottle" class="w-12 h-12 rounded-lg object-cover border">
+                            <div>
+                                <p class="font-semibold text-gray-700">Eco Water Bottle</p>
+                                <p class="text-sm text-gray-500">Reusable bottle for your daily hydration.</p>
+                            </div>
+                        </div>
+                        <button class="redeem-btn bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold hover:bg-blue-200" data-cost="500">500 pts</button>
+                    </li>
+                    <!-- Eco Tote Bag -->
+                    <li class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="eco bag.png" alt="Eco Tote Bag" class="w-12 h-12 rounded-lg object-cover border">
+                            <div>
+                                <p class="font-semibold text-gray-700">Eco Tote Bag</p>
+                                <p class="text-sm text-gray-500">Reusable bag for shopping and daily use.</p>
+                            </div>
+                        </div>
+                        <button class="redeem-btn bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold hover:bg-blue-200" data-cost="300">300 pts</button>
+                    </li>
+                    <!-- Herb Garden Kit -->
+                    <li class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="plankit.png" alt="Herb Garden Kit" class="w-12 h-12 rounded-lg object-cover border">
+                            <div>
+                                <p class="font-semibold text-gray-700">Herb Garden Kit</p>
+                                <p class="text-sm text-gray-500">Grow your own herbs at home.</p>
+                            </div>
+                        </div>
+                        <button class="redeem-btn bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold hover:bg-blue-200" data-cost="800">800 pts</button>
+                    </li>
+                    <!-- Grocery Coupon -->
+                    <li class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="shopping_coupon.png" alt="Grocery Coupon" class="w-12 h-12 rounded-lg object-cover border">
+                            <div>
+                                <p class="font-semibold text-gray-700">Grocery Coupon</p>
+                                <p class="text-sm text-gray-500">50% off on your next grocery shopping.</p>
+                            </div>
+                        </div>
+                        <button class="redeem-btn bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold hover:bg-blue-200" data-cost="400">400 pts</button>
+                    </li>
+                    <!-- Movie Ticket -->
+                    <li class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="cinema.png" alt="Movie Ticket" class="w-12 h-12 rounded-lg object-cover border">
+                            <div>
+                                <p class="font-semibold text-gray-700">Movie Ticket</p>
+                                <p class="text-sm text-gray-500">Enjoy a free movie night.</p>
+                            </div>
+                        </div>
+                        <button class="redeem-btn bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold hover:bg-blue-200" data-cost="350">350 pts</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="p-6 bg-gray-50 rounded-b-lg text-center">
+                <p class="text-sm text-gray-600">Your points: <span id="modal-user-points" class="font-bold">1,250 pts</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="comment-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Comments</h3>
+                <button id="close-comment-modal-btn" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div id="comment-list" class="p-6 max-h-[50vh] overflow-y-auto space-y-4">
+                <!-- Example comments -->
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="flex items-center mb-1">
+                        <span class="font-bold text-blue-700 mr-2">EcoHero#1234</span>
+                        <span class="text-xs text-gray-400">2 min ago</span>
+                    </div>
+                    <p class="text-gray-700">Just donated my old laptop! Feels great to help the planet 🌱</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="flex items-center mb-1">
+                        <span class="font-bold text-green-700 mr-2">GreenQueen</span>
+                        <span class="text-xs text-gray-400">5 min ago</span>
+                    </div>
+                    <p class="text-gray-700">The staff at the hub were super friendly. Highly recommend!</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <div class="flex items-center mb-1">
+                        <span class="font-bold text-gray-700 mr-2">RecycleGuy</span>
+                        <span class="text-xs text-gray-400">10 min ago</span>
+                    </div>
+                    <p class="text-gray-700">Donated some cables and got a tote bag reward. Awesome!</p>
+                </div>
+                <!-- More comments will be injected here by JS -->
+            </div>
+            <div class="p-6 bg-gray-50 rounded-b-lg">
+                <div class="flex items-center space-x-3">
+                    <input type="text" id="new-comment-input" placeholder="Add a comment..." class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <button id="post-comment-btn" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Codename Modal -->
+    <div id="codename-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Enter Your Codename</h3>
+                <button id="close-codename-modal-btn" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <label for="codename-input" class="block text-sm font-medium text-gray-700 mb-2">Codename</label>
+                <input type="text" id="codename-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4" placeholder="e.g. EcoHero#1234">
+                <label for="donation-info-input" class="block text-sm font-medium text-gray-700 mb-2">Donation Info</label>
+    <input type="text" id="donation-info-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4" placeholder="e.g. Desktop Computer">
+    <label for="donation-location-input" class="block text-sm font-medium text-gray-700 mb-2">Collection Point</label>
+    <input type="text" id="donation-location-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4" placeholder="e.g. Downtown Collection Point">
+                <button id="submit-codename-btn" class="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+    <div class="bg-green-50 rounded-xl shadow-2xl w-full max-w-md border border-green-200">
+        <div class="p-6 border-b flex justify-between items-center bg-green-100 rounded-t-xl">
+            <h3 class="text-xl font-extrabold text-green-700 flex items-center gap-2">
+                <i data-lucide="leaf" class="w-6 h-6 text-green-500"></i>
+                Contact Us
+            </h3>
+            <button id="close-contact-modal-btn" class="text-green-400 hover:text-green-600">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="mb-4 text-center">
+                <i data-lucide="mail" class="w-10 h-10 text-green-400 mb-2"></i>
+                <h4 class="text-lg font-semibold text-green-700 mb-1">We'd love to hear from you!</h4>
+                <p class="text-sm text-green-700">Send us your suggestions, questions, or feedback below.</p>
+            </div>
+            <form id="contact-form" class="space-y-4">
+                <div>
+                    <label for="contact-name" class="block text-sm font-medium text-green-700 mb-1">Name</label>
+                    <input type="text" id="contact-name" class="w-full p-2 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white" required>
+                </div>
+                <div>
+                    <label for="contact-email" class="block text-sm font-medium text-green-700 mb-1">Email</label>
+                    <input type="email" id="contact-email" class="w-full p-2 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white" required>
+                </div>
+                <div>
+                    <label for="contact-message" class="block text-sm font-medium text-green-700 mb-1">Message</label>
+                    <textarea id="contact-message" class="w-full p-2 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-green-400 to-blue-400 text-white font-bold py-2 rounded-lg hover:scale-105 transition-transform shadow-lg">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div id="gallery-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg flex flex-col items-center">
+            <button id="close-gallery-modal-btn" class="self-end m-4 text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <img id="gallery-modal-img" src="" class="max-w-full max-h-[60vh] rounded-lg mb-4" alt="Gallery Photo">
+            <div id="gallery-modal-nav" class="flex gap-2 mb-4"></div>
+        </div>
+    </div>
+
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</htm
